@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using PizzaStore ;
 
 var builder = WebApplication.CreateBuilder(args);
 //adding CORS Service : 
@@ -24,6 +25,11 @@ app.UseSwaggerUI(c =>
 
 });
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("pizzas/{id}", (int id) => PizzaDb.GetPizza(id));
+app.MapGet("/pizzas", () =>PizzaDb.GetPizzas());
+app.MapPost("/pizzas", (Pizza pizza) => PizzaDb.CreatePizza(pizza));
+app.MapPut("/pizzas", (Pizza pizza) => PizzaDb.UpdatePizza(pizza));
+app.MapDelete("/pizzas/{id}", (int id) => PizzaDb.RemovePizza(id));
 // We run the API to make it ready to listen to Client Requests !! 
+
 app.Run();
